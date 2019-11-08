@@ -16,7 +16,7 @@ const computeBalance = (address, ledger) => {
     .filter(not(prop('isGenesis')))
     .flatMap(prop('data'))
     .map(balanceOf(address))
-    .reduce(Money.sum, Money.zero())
+    .reduce(Money.sum, Money.zero('$'))
     .round()
 }
 
