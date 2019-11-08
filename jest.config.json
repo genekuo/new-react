@@ -3,7 +3,8 @@
       "<rootDir>/src"
     ],
     "transform": {
-      "^.+\\.tsx?$": "ts-jest"
+      "^.+\\.tsx?$": "ts-jest",
+      "^.+\\.(js|jsx)?$": "babel-jest"
     },
     "setupFilesAfterEnv": ["<rootDir>/setupEnzyme.js"],
     "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],

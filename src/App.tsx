@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Popout} from 'react-popout-component';
 
-export default class App extends React.Component<any, any> {
+export default class App1 extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
         this.state = {showPopout: false};

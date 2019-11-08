@@ -1,0 +1,1 @@
+Functional progamming must be pure with no side-effect.

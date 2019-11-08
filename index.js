@@ -1,6 +1,21 @@
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import App from './src/App'
+import { createStore, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
+import { reducer as formReducer } from 'redux-form';
 
-ReactDOM.render(<App />, document.getElementById("root"))
+import App from './src/App';
+
+const rootReducer = combineReducers({
+    form: formReducer
+  });
+  
+const store = createStore(rootReducer);
+
+ReactDOM.render(
+    <Provider store={store}>
+        <App />
+    </Provider>, 
+    document.getElementById("root"));

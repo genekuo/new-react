@@ -1,0 +1,132 @@
+import React, { Component } from "react";
+import { Form, Field, reduxForm } from "redux-form";
+
+const TextField = ({
+  input,
+  label,
+  meta: { touched, error },
+  type,
+  fullWidth,
+  className,
+  placeholder = "",
+  autoFocus = false,
+  multiline = false,
+  setFieldToBeFocused = () => {},
+  ...fieldAttrs
+}) => {
+  const errorMessage = touched ? error : "";
+  return (
+    <div
+      className={`text-field ${errorMessage ? "error" : ""} ${
+        className ? className : ""
+      }`}
+    >
+      <label>{label}</label>
+      {multiline && (
+        <textarea
+          {...input}
+          className={fullWidth ? "full-width" : "shrinked"}
+          placeholder={placeholder}
+          autoFocus={autoFocus}
+          rows="3"
+        />
+      )}
+      {!multiline && (
+        <input
+          {...input}
+          type={type ? type : "text"}
+          className={fullWidth ? "full-width" : "shrinked"}
+          placeholder={placeholder ? placeholder : ""}
+          autoFocus={autoFocus}
+          ref={input => setFieldToBeFocused(input)}
+          {...fieldAttrs}
+        />
+      )}
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+    </div>
+  );
+};
+
+class SimpleForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      editMode: false
+    };
+  }
+
+  onSubmit = values => {
+    console.log(values);
+    // this.props.handleNameChange(values.name)?
+  };
+
+  toggleEditMode = () => {
+    console.log(this.fieldRef);
+    const { editMode } = this.state;
+    if (editMode) {
+      // turn off
+      this.setState({
+        editMode: false
+      });
+    } else {
+      // turn on
+      this.setState(
+        {
+          editMode: true
+        },
+        () => {
+          this.input.focus();
+        }
+      );
+    }
+  };
+
+  render() {
+    const { handleSubmit } = this.props;
+    const { editMode } = this.state;
+
+    return (
+      <div className="segment-name-form-wrapper">
+        <Form
+          name="segment-name-form"
+          className="segment-name-form"
+          autoComplete="off"
+          onSubmit={handleSubmit(this.onSubmit)}
+        >
+          <Field
+            name="name"
+            component={TextField}
+            className="underlined-text-field"
+            label="Name your segment"
+            disabled={!editMode}
+            setFieldToBeFocused={input => {
+              this.input = input;
+            }}
+          />
+          {editMode && (
+            <button
+              type="button"
+              className="link-button"
+              onClick={this.toggleEditMode}
+            >
+              Done
+            </button>
+          )}
+          {!editMode && (
+            <button
+              type="button"
+              className="link-button"
+              onClick={this.toggleEditMode}
+            >
+              Edit
+            </button>
+          )}
+        </Form>
+      </div>
+    );
+  }
+}
+
+export default reduxForm({
+  form: "simple" // a unique identifier for this form
+})(SimpleForm);
